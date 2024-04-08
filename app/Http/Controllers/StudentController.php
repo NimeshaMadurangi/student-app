@@ -101,5 +101,4 @@ class StudentController extends Controller
         return Inertia::render('students.edit', compact('student'));
     }
 
-
 }

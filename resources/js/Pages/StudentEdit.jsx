@@ -39,7 +39,9 @@ const StudentEdit = ({ student }) => {
       formDataToSend.append("age", formData.age);
       formDataToSend.append("image", formData.image);
 
-      await Inertia.put("/students/{id}", formDataToSend);
+      const studentId = student.id;
+
+      await Inertia.put(`/students/${studentId}`, formDataToSend);
 
       Inertia.visit('/StudentList');
     } catch (error) {
