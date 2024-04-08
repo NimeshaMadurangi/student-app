@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Inertia } from "@inertiajs/inertia";
+import { InertiaLink } from "@inertiajs/inertia-react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const Student = () => {
@@ -22,7 +23,13 @@ const Student = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      Inertia.post("/upload", formData);
+      const formDataToSend = new FormData();
+      formDataToSend.append("name", formData.name);
+      formDataToSend.append("age", formData.age);
+      formDataToSend.append("image", formData.image);
+      formDataToSend.append("status", formData.status);
+
+      await Inertia.post("/upload", formDataToSend);
       setFormData({
         name: "",
         age: "",
@@ -39,7 +46,7 @@ const Student = () => {
   return (
     <div className="container">
       <h2 className="mb-4">Add New Student</h2>
-      <form onSubmit={handleSubmit} action="/upload" method="post" className="student-form">
+      <form onSubmit={handleSubmit} className="student-form">
         <div className="mb-3">
           <label htmlFor="name" className="form-label">Name:</label>
           <input type="text" name="name" id="name" value={formData.name} onChange={handleChange} className="form-control" />
@@ -57,6 +64,7 @@ const Student = () => {
           <input type="text" name="status" id="status" value={formData.status} onChange={handleChange} className="form-control" />
         </div>
         <button type="submit" disabled={!formData.name || !formData.age || !formData.image || !formData.status} className="btn btn-primary btn-frame">Submit</button>
+        <InertiaLink href="/dashboard" className="btn btn-secondary ms-2">Cancel</InertiaLink>
       </form>
     </div>
   );
