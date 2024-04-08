@@ -37,15 +37,19 @@ const StudentEdit = ({ student }) => {
       formDataToSend.append("image", formData.image);
   
       await Inertia.put(`/students/${student.id}`, formDataToSend);
-      
-      // If the update is successful, redirect to the desired location
-      Inertia.visit('/student-list');
+  
+      // Display success alert
+      alert("Successfully Updated");
+  
+      // Redirect to the StudentList.jsx page
+      Inertia.visit('/StudentList');
     } catch (error) {
       // If there's an error, log it to the console and display an error message
       console.error("Error updating student:", error);
       alert("Error updating student");
     }
   };
+  
 
   return (
     <div className="container">
