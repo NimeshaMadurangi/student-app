@@ -39,9 +39,11 @@ Route::prefix('')->group(function () {
         ]);
     })->name('student.edit');
 
-    Route::put('/students/{id}', 'StudentController@update')->name('students.update');
+    //Route::put('/students/{id}', 'StudentController@update')->name('students.update');
 
-    
+    //Route::put('/students/{id}', [StudentController::class, 'update']);
+
+    Route::put('/students/{id}', [StudentController::class, 'update'])->name('students.update');
 
     // Route::prefix('students')->group(function () {
     //     Route::put('/{id}', [StudentController::class, 'update'])->name('students.update');

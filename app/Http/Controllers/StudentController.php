@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Student;
+use App\Http\Requests\StudentRequest;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class StudentController extends Controller
 {
@@ -55,8 +57,8 @@ class StudentController extends Controller
 
     public function display()
     {
-        $students = Student::all();
-        return response()->json($students);
+        $student = Student::all();
+        return response()->json($student);
     }
 
     public function destroy($id)
@@ -67,38 +69,37 @@ class StudentController extends Controller
     }
 
     public function update(Request $request, $id)
-    {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'age' => 'required|integer',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
-    
+{
+    $student = Student::find($id);
 
-        $student = Student::findOrFail($id);
-    
+    $validatedData = $request->validate([
+        'name' => 'required|string|max:255',
+        'age' => 'required|integer',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
 
-        $student->name = $validatedData['name'];
-        $student->age = $validatedData['age'];
-    
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time().'.'.$image->extension();
-            $image->move(public_path('images'), $imageName);
-            $student->image = $imageName;
-        }
-    
-        $student->save();
-    
-        return redirect()->route('dashboard')->with('success', 'Student updated successfully');
+    if ($request->hasFile('image')) {
+        $image = $request->file('image');
+        $imageName = time() . '.' . $image->getClientOriginalExtension();
+        $image->storeAs('public/images', $imageName);
+
+
+        $validatedData['image'] = $imageName;
     }
-    
 
-    public function edit($id)
-        {
-            $student = Student::find($id);
+    $student->update($validatedData);
 
-            return view('students.edit', compact('student'));
-        }
+    return response()->json(['message' => 'Student updated successfully']);
+}
+
+
+
+        public function edit($id)
+    {
+        $student = Students::findOrFail($id);
+
+        return Inertia::render('students.edit', compact('student'));
+    }
+
 
 }
