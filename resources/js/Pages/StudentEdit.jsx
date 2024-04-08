@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Inertia } from "@inertiajs/inertia";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { InertiaLink } from '@inertiajs/inertia-react';
 
 const StudentEdit = ({ student }) => {
   const [formData, setFormData] = useState({
@@ -34,12 +35,13 @@ const StudentEdit = ({ student }) => {
       formDataToSend.append("name", formData.name);
       formDataToSend.append("age", formData.age);
       formDataToSend.append("image", formData.image);
-
-
-      Inertia.put(`/students/${student.id}`, formDataToSend);
+  
+      await Inertia.put(`/students/${student.id}`, formDataToSend);
       
-      alert("Student updated successfully");
+      // If the update is successful, redirect to the desired location
+      Inertia.visit('/student-list');
     } catch (error) {
+      // If there's an error, log it to the console and display an error message
       console.error("Error updating student:", error);
       alert("Error updating student");
     }
@@ -95,6 +97,9 @@ const StudentEdit = ({ student }) => {
         <button type="submit" className="btn btn-primary btn-frame">
           Save
         </button>
+        <InertiaLink href="/StudentList" className="btn btn-secondary btn-frame ms-2">
+          Cancel
+        </InertiaLink>
       </form>
     </div>
   );

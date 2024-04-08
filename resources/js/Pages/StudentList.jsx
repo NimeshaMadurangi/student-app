@@ -75,12 +75,9 @@ const StudentList = () => {
                                 </td>
                                 <td>{student.status}</td>
                                 <td>
-                                <InertiaLink
-                                        href={route('student.edit', { id: student.id })}
-                                        className="btn btn-sm btn-primary"
-                                    >
-                                        Edit
-                                    </InertiaLink>
+                                <InertiaLink href={route('student.edit', { id: student.id })} className="btn btn-sm btn-primary">
+                                    Edit
+                                </InertiaLink>
 
                                     <InertiaLink
                                         onClick={() => handleDelete(student.id)}

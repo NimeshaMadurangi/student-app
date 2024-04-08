@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StudentController;
+use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,4 +34,5 @@ Route::put('/students/{id}', [StudentController::class, 'update'])->name('studen
 Route::get('/student-list', [StudentController::class, 'index'])->name('student-list');
 
 Route::put('/students/{id}', [StudentController::class, 'updateStatus']);
+
 
