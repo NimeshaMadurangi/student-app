@@ -69,34 +69,34 @@ class StudentController extends Controller
     }
 
     public function update(Request $request, $id)
-{
-    $student = Student::find($id);
+    {
+        $student = Student::findOrFail($id);
 
-    $validatedData = $request->validate([
-        'name' => 'required|string|max:255',
-        'age' => 'required|integer',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-    ]);
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'age' => 'required|integer',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
 
-    if ($request->hasFile('image')) {
-        $image = $request->file('image');
-        $imageName = time() . '.' . $image->getClientOriginalExtension();
-        $image->storeAs('public/images', $imageName);
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->storeAs('public/images', $imageName);
 
 
-        $validatedData['image'] = $imageName;
+            $validatedData['image'] = $imageName;
+        }
+
+        $student->update($validatedData);
+
+        return response()->json(['message' => 'Student updated successfully']);
     }
-
-    $student->update($validatedData);
-
-    return response()->json(['message' => 'Student updated successfully']);
-}
 
 
 
         public function edit($id)
     {
-        $student = Students::findOrFail($id);
+        $student = Student::findOrFail($id);
 
         return Inertia::render('students.edit', compact('student'));
     }
