@@ -36,19 +36,18 @@ const StudentEdit = ({ student }) => {
       formDataToSend.append("age", formData.age);
       formDataToSend.append("image", formData.image);
   
+
       await Inertia.put(`/students/${student.id}`, formDataToSend);
-  
-      // Display success alert
-      alert("Successfully Updated");
-  
-      // Redirect to the StudentList.jsx page
+
+
       Inertia.visit('/StudentList');
     } catch (error) {
-      // If there's an error, log it to the console and display an error message
+
       console.error("Error updating student:", error);
       alert("Error updating student");
     }
   };
+  
   
 
   return (
@@ -57,10 +56,6 @@ const StudentEdit = ({ student }) => {
       <form onSubmit={handleSubmit} className="student-form">
         <table className="table">
           <tbody>
-            <tr>
-              <td>ID:</td>
-              <td>{student.id}</td>
-            </tr>
             <tr>
               <td>Name:</td>
               <td>
@@ -94,6 +89,13 @@ const StudentEdit = ({ student }) => {
                   onChange={handleChange}
                   className="form-control"
                 />
+                {formData.image && (
+                <img
+                  src={URL.createObjectURL(formData.image)}
+                  alt="Student Image"
+                  style={{ maxWidth: '200px', marginTop: '10px' }}
+                />
+                )}
               </td>
             </tr>
           </tbody>

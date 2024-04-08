@@ -38,11 +38,14 @@ Route::prefix('')->group(function () {
             'student' => $id
         ]);
     })->name('student.edit');
+
+    Route::put('/students/{id}', 'StudentController@update')->name('students.update');
+
     
 
-    Route::prefix('students')->group(function () {
-        Route::put('/{id}', [StudentController::class, 'update'])->name('students.update');
-    });
+    // Route::prefix('students')->group(function () {
+    //     Route::put('/{id}', [StudentController::class, 'update'])->name('students.update');
+    // });
 
 });
 
